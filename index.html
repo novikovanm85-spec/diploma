@@ -72,7 +72,6 @@
             text-align: center;
             color: #ff8888;
         }
-        /* Стили грамоты */
         .diploma {
             background: url('back.jpg') center/cover no-repeat;
             padding: 30px 20px;
@@ -213,7 +212,7 @@
         document.getElementById('generateBtn').addEventListener('click', async () => {
             if (isProcessing) return;
             
-            const firstName = document.getElementById('participantName').value.trim();
+            const participantName = document.getElementById('participantName').value.trim();
             const teamName = document.getElementById('teamName').value.trim();
             const nomination = document.getElementById('nomination').value;
             const errorDiv = document.getElementById('errorDiv');
