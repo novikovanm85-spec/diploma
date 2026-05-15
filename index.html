@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Создать грамоту | Музыкальный Квиз</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Russo+One&family=Oswald:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0000;
+            font-family: 'Inter', sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid #cc0000;
+        }
+        h1 { 
+            font-family: 'Russo One', sans-serif;
+            color: #cc0000; 
+            text-align: center; 
+            margin-bottom: 25px; 
+            font-size: 1.8rem; 
+        }
+        label { 
+            font-family: 'Oswald', sans-serif;
+            color: #cc0000; 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: 600;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            background: #2a2a2a;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+        button {
+            background: #cc0000;
+            color: white;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:disabled { background: #555; cursor: not-allowed; }
+        .error {
+            background: rgba(204,0,0,0.2);
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+            color: #ff8888;
+        }
+        /* Стили грамоты */
+        .diploma {
+            background: white url('gpt-image-2_exquisite_high_fashion_photography_of_Create_a_vertical_background_for_a_concert-0.jpg') center/cover no-repeat;
+            padding: 30px 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 3px solid #cc0000;
+            position: relative;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 15px auto;
+            width: 80px;
+            height: auto;
+        }
+        .diploma-content {
+            background: transparent;
+            padding: 10px;
+            color: #ffffff;
+            text-align: center;
+        }
+        .diploma-header h2 {
+            font-family: 'Russo One', sans-serif;
+            color: #ff5555;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        .diploma-header p {
+            font-family: 'Inter', sans-serif;
+            color: #dddddd;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        .award-text {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        .winner-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: #ffcc66;
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(0,0,0,0.5);
+            display: inline-block;
+            border-radius: 10px;
+        }
+        .nomination {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ff8888;
+            margin: 10px 0;
+        }
+        .date {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            margin-top: 20px;
+            color: #dddddd;
+        }
+        .hidden { display: none; }
+        .footer { text-align: center; font-size: 0.7rem; color: #666; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <h1>🏆 СОЗДАТЬ ГРАМОТУ</h1>
+        
+        <div id="formDiv">
+            <label>ИМЯ УЧАСТНИКА</label>
+            <input type="text" id="participantName" placeholder="Например: Иван Иванов">
+            
+            <label>НАЗВАНИЕ КОМАНДЫ (необязательно)</label>
+            <input type="text" id="teamName" placeholder="Например: Громкие сердца">
+            
+            <label>НОМИНАЦИЯ</label>
+            <select id="nomination">
+                <option value="🥇 1 место">🥇 1 место</option>
+                <option value="🥈 2 место">🥈 2 место</option>
+                <option value="🥉 3 место">🥉 3 место</option>
+                <option value="🌟 Приз зрительских симпатий">🌟 Приз зрительских симпатий</option>
+                <option value="🎸 Лучший капитан">🎸 Лучший капитан</option>
+                <option value="⚡ За волю к победе">⚡ За волю к победе</option>
+            </select>
+            
+            <button id="generateBtn">СОЗДАТЬ ГРАМОТУ</button>
+        </div>
+        
+        <div id="diplomaDiv" class="hidden"></div>
+        <div id="errorDiv" class="error hidden"></div>
+        <div class="footer">Грамота сохраняется в виде картинки</div>
+    </div>
+
+    <script>
+        let isProcessing = false;
+        
+        function showDiploma(participantName, teamName, nomination) {
+            const diplomaDiv = document.getElementById('diplomaDiv');
+            const displayTeam = teamName ? `${teamName} · ` : '';
+            
+            diplomaDiv.innerHTML = `
+                <div class="diploma" id="diplomaToDownload">
+                    <div class="diploma-content">
+                        <div class="diploma-header">
+                            <img src="logo.jpg" alt="Логотип" class="logo" onerror="this.style.display='none'">
+                            <h2>ROCK QUIZ</h2>
+                            <p>Музыкальная битва</p>
+                        </div>
+                        <div class="award-text">НАГРАЖДАЕТСЯ</div>
+                        <div class="winner-name">${participantName}</div>
+                        <div class="nomination">${displayTeam}${nomination}</div>
+                        <div class="date">г. Липецк, 28 мая 2026 года</div>
+                    </div>
+                </div>
+                <button id="downloadBtn">💾 СКАЧАТЬ ГРАМОТУ</button>
+            `;
+            diplomaDiv.classList.remove('hidden');
+            
+            document.getElementById('downloadBtn').addEventListener('click', async () => {
+                const element = document.getElementById('diplomaToDownload');
+                try {
+                    const canvas = await html2canvas(element, { scale: 2, backgroundColor: '#ffffff' });
+                    const link = document.createElement('a');
+                    link.download = `gramota_${participantName.replace(/\s/g, '_')}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                } catch(err) {
+                    alert('Ошибка при сохранении грамоты');
+                }
+            });
+        }
+        
+        document.getElementById('generateBtn').addEventListener('click', async () => {
+            if (isProcessing) return;
+            
+            const participantName = document.getElementById('participantName').value.trim();
+            const teamName = document.getElementById('teamName').value.trim();
+            const nomination = document.getElementById('nomination').value;
+            const errorDiv = document.getElementById('errorDiv');
+            const formDiv = document.getElementById('formDiv');
+            const generateBtn = document.getElementById('generateBtn');
+            
+            if (!participantName) {
+                errorDiv.innerHTML = '❌ Введите имя участника';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+            
+            isProcessing = true;
+            generateBtn.disabled = true;
+            generateBtn.textContent = 'СОЗДАНИЕ...';
+            
+            formDiv.classList.add('hidden');
+            errorDiv.classList.add('hidden');
+            showDiploma(participantName, teamName, nomination);
+            
+            generateBtn.disabled = false;
+            isProcessing = false;
+        });
+    </script>
+</body>
+</html>
