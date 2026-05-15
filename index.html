@@ -140,6 +140,37 @@
         }
         .hidden { display: none; }
         .footer { text-align: center; font-size: 0.7rem; color: #666; margin-top: 20px; }
+
+        /* Стили для печати — убираем поля и фон */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                background: white;
+            }
+            .container {
+                display: none;
+            }
+            .diploma {
+                margin: 0;
+                padding: 0;
+                border-radius: 0;
+                border: none;
+                width: 100%;
+                height: 100%;
+                page-break-after: avoid;
+                page-break-inside: avoid;
+                position: fixed;
+                top: 0;
+                left: 0;
+            }
+            .diploma-content {
+                padding: 20px;
+            }
+            button, .no-print {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -192,7 +223,8 @@
                         <div class="date">г. Липецк, 28 мая 2026 года</div>
                     </div>
                 </div>
-                <button id="downloadBtn">💾 СКАЧАТЬ ГРАМОТУ</button>
+                <button id="downloadBtn">💾 СКАЧАТЬ КАРТИНКУ</button>
+                <button id="printBtn" class="no-print" style="background: #333; margin-top: 10px;">🖨️ РАСПЕЧАТАТЬ</button>
             `;
             diplomaDiv.classList.remove('hidden');
             
@@ -207,6 +239,10 @@
                 } catch(err) {
                     alert('Ошибка при сохранении грамоты');
                 }
+            });
+            
+            document.getElementById('printBtn').addEventListener('click', () => {
+                window.print();
             });
         }
         
