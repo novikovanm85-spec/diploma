@@ -118,7 +118,7 @@
             font-size: 1.8rem;
             font-weight: 400;
             letter-spacing: 2px;
-            color: #ffcc66;
+            color: #ffffff;
             margin: 15px 0;
             padding: 10px;
             background: rgba(0,0,0,0.5);
@@ -129,7 +129,7 @@
             font-family: 'Oswald', sans-serif;
             font-size: 1.2rem;
             font-weight: 600;
-            color: #ff8888;
+            color: #cc0000;
             margin: 10px 0;
         }
         .date {
@@ -213,7 +213,7 @@
         document.getElementById('generateBtn').addEventListener('click', async () => {
             if (isProcessing) return;
             
-            const participantName = document.getElementById('participantName').value.trim();
+            const firstName = document.getElementById('participantName').value.trim();
             const teamName = document.getElementById('teamName').value.trim();
             const nomination = document.getElementById('nomination').value;
             const errorDiv = document.getElementById('errorDiv');
