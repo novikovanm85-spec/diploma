@@ -129,7 +129,7 @@
             display: none;
         }
 
-        /* СТИЛИ ГРАМОТЫ — светлый фон, белый текст, БЕЗ лишней фразы */
+        /* СТИЛИ ГРАМОТЫ — светлый фон, ЗАГОЛОВОК КРАСНЫЙ, имена в столбик */
         .diploma {
             background: url('back.jpg') center/cover no-repeat;
             background-color: #9e2b2b;
@@ -155,22 +155,24 @@
             filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
         }
 
+        /* ЗАГОЛОВОК И ПОДЗАГОЛОВОК — КРАСНЫЕ, как ты просил */
         .diploma-header h2 {
             font-family: 'Russo One', sans-serif;
-            color: #ffffff;
+            color: #dd3b3b;
             font-size: 2.2rem;
             margin-bottom: 6px;
             letter-spacing: 3px;
-            text-shadow: 2px 2px 0 #6b1a1a;
+            text-shadow: 1px 1px 0 #2a0000;
         }
 
         .diploma-header p {
             font-family: 'Inter', sans-serif;
-            color: #f8efdc;
+            color: #dd3b3b;
             font-size: 1rem;
             margin-bottom: 12px;
             letter-spacing: 1px;
-            font-weight: 500;
+            font-weight: 600;
+            text-shadow: 0.5px 0.5px 0 #2a0000;
         }
 
         .award-text {
@@ -183,7 +185,7 @@
             text-shadow: 1px 1px 0 #7e2222;
         }
 
-        /* Имена — каждое с новой строки */
+        /* Имена — каждое с новой строки, белые */
         .names-list {
             font-family: 'Bebas Neue', cursive;
             font-size: 1.6rem;
@@ -203,7 +205,7 @@
             line-height: 1.4;
         }
 
-        /* Номинация — белая, без жёлтого */
+        /* Номинация — белая */
         .nomination {
             font-family: 'Oswald', sans-serif;
             font-size: 1.2rem;
@@ -214,7 +216,7 @@
             text-shadow: 1px 1px 0 #6e1e1e;
         }
 
-        /* ТОЛЬКО город и дата — БЕЗ "Рок-олимп гремит" */
+        /* Только город и дата — без лишних фраз */
         .date {
             font-family: 'Inter', sans-serif;
             font-size: 0.85rem;
@@ -278,6 +280,13 @@
 
             .names-list span {
                 font-size: 1.5rem;
+            }
+
+            .diploma-header h2 {
+                color: #dd3b3b !important;
+            }
+            .diploma-header p {
+                color: #dd3b3b !important;
             }
 
             * {
@@ -369,7 +378,6 @@
                 namesHtml += `<span>${escapeHtml(namesArray[i])}</span>`;
             }
 
-            // ВНИМАНИЕ: внизу ТОЛЬКО "г. Липецк, 28 мая 2026 года" — без всякой дополнительной фразы!
             diplomaDiv.innerHTML = `
                 <div class="diploma" id="diplomaToDownload">
                     <div class="diploma-content">
@@ -489,17 +497,17 @@
                             }
                             .diploma-header h2 {
                                 font-family: 'Russo One', sans-serif;
-                                color: #ffffff;
+                                color: #dd3b3b;
                                 font-size: 2.3rem;
-                                text-shadow: 2px 2px 0 #6b1a1a;
+                                text-shadow: 1px 1px 0 #2a0000;
                                 letter-spacing: 3px;
                             }
                             .diploma-header p {
                                 font-family: 'Inter', sans-serif;
-                                color: #f8efdc;
+                                color: #dd3b3b;
                                 font-size: 1rem;
                                 margin-top: 6px;
-                                font-weight: 500;
+                                font-weight: 600;
                             }
                             .award-text {
                                 font-family: 'Oswald', sans-serif;
