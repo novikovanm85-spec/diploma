@@ -39,7 +39,7 @@
             margin-bottom: 5px; 
             font-weight: 600;
         }
-        input, select {
+        input, select, textarea {
             width: 100%;
             padding: 12px;
             margin-bottom: 20px;
@@ -48,6 +48,10 @@
             color: white;
             border-radius: 10px;
             font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+        textarea {
+            resize: vertical;
             font-family: 'Inter', sans-serif;
         }
         button {
@@ -79,6 +83,8 @@
             margin-top: 20px;
             border: 3px solid #cc0000;
             position: relative;
+            max-height: 70vh;
+            overflow-y: auto;
         }
         .logo {
             display: block;
@@ -139,6 +145,13 @@
         }
         .hidden { display: none; }
         .footer { text-align: center; font-size: 0.7rem; color: #666; margin-top: 20px; }
+        
+        /* Стиль для нескольких имён */
+        .names-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
     </style>
 </head>
 <body>
@@ -146,8 +159,8 @@
         <h1>🏆 СОЗДАТЬ ГРАМОТУ</h1>
         
         <div id="formDiv">
-            <label>ИМЯ УЧАСТНИКА</label>
-            <input type="text" id="participantName" placeholder="Например: Иван Иванов">
+            <label>ИМЕНА УЧАСТНИКОВ</label>
+            <textarea id="participantNames" rows="5" placeholder="Введите имена, каждое с новой строки:&#10;&#10;Например:&#10;Иван Керло&#10;Арсений Гаврин&#10;Тимофей Глушков&#10;Милана Пушилина&#10;Дарья Колган&#10;Юлия Язлюк"></textarea>
             
             <label>НАЗВАНИЕ КОМАНДЫ (необязательно)</label>
             <input type="text" id="teamName" placeholder="Например: Громкие сердца">
@@ -173,9 +186,30 @@
     <script>
         let isProcessing = false;
         
-        function showDiploma(participantName, teamName, nomination) {
+        // Функция для защиты от XSS атак
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function showDiploma(participantNamesText, teamName, nomination) {
             const diplomaDiv = document.getElementById('diplomaDiv');
             const displayTeam = teamName ? `${teamName} · ` : '';
+            
+            // Разбиваем текст на отдельные имена (по переносам строк)
+            let namesArray = participantNamesText.split('\n');
+            
+            // Очищаем каждое имя от лишних пробелов и удаляем пустые строки
+            namesArray = namesArray
+                .map(name => name.trim())
+                .filter(name => name !== '');
+            
+            // Создаём HTML со всеми именами, каждое на отдельной строке
+            let namesHtml = '';
+            namesArray.forEach(name => {
+                namesHtml += `<div class="winner-name">${escapeHtml(name)}</div>`;
+            });
             
             diplomaDiv.innerHTML = `
                 <div class="diploma" id="diplomaToDownload">
@@ -186,41 +220,62 @@
                             <p>Музыкальная битва</p>
                         </div>
                         <div class="award-text">НАГРАЖДАЕТСЯ</div>
-                        <div class="winner-name">${participantName}</div>
-                        <div class="nomination">${displayTeam}${nomination}</div>
+                        ${namesHtml}
+                        <div class="nomination">${displayTeam}${escapeHtml(nomination)}</div>
                         <div class="date">г. Липецк, 28 мая 2026 года</div>
                     </div>
                 </div>
                 <button id="downloadBtn">💾 СКАЧАТЬ ГРАМОТУ</button>
+                <button id="backBtn" style="margin-top: 10px; background: #555;">◀ НАЗАД К ФОРМЕ</button>
             `;
             diplomaDiv.classList.remove('hidden');
             
+            // Кнопка скачивания
             document.getElementById('downloadBtn').addEventListener('click', async () => {
                 const element = document.getElementById('diplomaToDownload');
                 try {
                     const canvas = await html2canvas(element, { scale: 2, backgroundColor: '#ffffff' });
                     const link = document.createElement('a');
-                    link.download = `gramota_${participantName.replace(/\s/g, '_')}.png`;
+                    const fileName = namesArray.length === 1 
+                        ? `gramota_${namesArray[0].replace(/\s/g, '_')}.png`
+                        : `gramota_${namesArray.length}_person.png`;
+                    link.download = fileName;
                     link.href = canvas.toDataURL('image/png');
                     link.click();
                 } catch(err) {
                     alert('Ошибка при сохранении грамоты');
                 }
             });
+            
+            // Кнопка "Назад"
+            document.getElementById('backBtn').addEventListener('click', () => {
+                document.getElementById('formDiv').classList.remove('hidden');
+                diplomaDiv.classList.add('hidden');
+                document.getElementById('errorDiv').classList.add('hidden');
+            });
         }
         
         document.getElementById('generateBtn').addEventListener('click', async () => {
             if (isProcessing) return;
             
-            const participantName = document.getElementById('participantName').value.trim();
+            const participantNames = document.getElementById('participantNames').value;
             const teamName = document.getElementById('teamName').value.trim();
             const nomination = document.getElementById('nomination').value;
             const errorDiv = document.getElementById('errorDiv');
             const formDiv = document.getElementById('formDiv');
             const generateBtn = document.getElementById('generateBtn');
             
-            if (!participantName) {
-                errorDiv.innerHTML = '❌ Введите имя участника';
+            // Проверяем, что поле с именами не пустое
+            if (!participantNames) {
+                errorDiv.innerHTML = '❌ Введите хотя бы одно имя участника';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+            
+            // Проверка, есть ли хоть одна непустая строка
+            const hasValidNames = participantNames.split('\n').some(line => line.trim() !== '');
+            if (!hasValidNames) {
+                errorDiv.innerHTML = '❌ Введите хотя бы одно имя участника';
                 errorDiv.classList.remove('hidden');
                 return;
             }
@@ -231,7 +286,7 @@
             
             formDiv.classList.add('hidden');
             errorDiv.classList.add('hidden');
-            showDiploma(participantName, teamName, nomination);
+            showDiploma(participantNames, teamName, nomination);
             
             generateBtn.disabled = false;
             isProcessing = false;
