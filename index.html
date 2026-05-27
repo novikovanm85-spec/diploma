@@ -76,16 +76,22 @@
             text-align: center;
             color: #ff8888;
         }
+        
+        /* СТИЛИ ДЛЯ ГРАМОТЫ — ФОРМАТ A4 */
         .diploma {
             background: url('back.jpg') center/cover no-repeat;
-            padding: 30px 20px;
-            border-radius: 15px;
+            padding: 40px 30px;
+            border-radius: 0;
             margin-top: 20px;
-            border: 3px solid #cc0000;
+            border: 2px solid #cc0000;
             position: relative;
-            max-height: 70vh;
-            overflow-y: auto;
+            width: 210mm;
+            min-height: 297mm;
+            box-sizing: border-box;
+            page-break-after: avoid;
+            break-inside: avoid;
         }
+        
         .logo {
             display: block;
             margin: 0 auto 15px auto;
@@ -97,60 +103,105 @@
             padding: 10px;
             color: #ffffff;
             text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         .diploma-header h2 {
             font-family: 'Russo One', sans-serif;
             color: #ff5555;
-            font-size: 1.8rem;
-            margin-bottom: 10px;
+            font-size: 2.2rem;
+            margin-bottom: 5px;
             letter-spacing: 2px;
         }
         .diploma-header p {
             font-family: 'Inter', sans-serif;
             color: #dddddd;
             font-size: 1rem;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         .award-text {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.2rem;
-            margin: 20px 0;
+            font-size: 1.3rem;
+            margin: 15px 0 10px 0;
             font-weight: 600;
             color: #ffffff;
         }
+        
+        /* УМЕНЬШЕННОЕ РАССТОЯНИЕ МЕЖДУ ИМЕНАМИ */
         .winner-name {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 1.8rem;
             font-weight: 400;
             letter-spacing: 2px;
             color: #ffffff;
-            margin: 15px 0;
-            padding: 10px;
-            background: rgba(0,0,0,0.5);
+            margin: 5px 0;
+            padding: 3px 10px;
+            background: rgba(0,0,0,0.4);
             display: inline-block;
-            border-radius: 10px;
+            border-radius: 8px;
         }
+        
         .nomination {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 600;
             color: #cc0000;
-            margin: 10px 0;
+            margin: 20px 0 10px 0;
         }
         .date {
             font-family: 'Inter', sans-serif;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             margin-top: 20px;
             color: #dddddd;
         }
+        
+        /* Контейнер для скачивания (A4) */
+        #diplomaToDownload {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+        }
+        
         .hidden { display: none; }
         .footer { text-align: center; font-size: 0.7rem; color: #666; margin-top: 20px; }
         
-        /* Стиль для нескольких имён */
-        .names-wrapper {
+        /* Обёртка для скролла на мобильных */
+        .diploma-wrapper {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        
+        /* Кнопки управления */
+        .button-group {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .button-group button {
+            margin-top: 0;
+            flex: 1;
+        }
+        .btn-back {
+            background: #555;
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                background: white;
+            }
+            .container {
+                display: none;
+            }
+            #diplomaToDownload {
+                display: block;
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+            }
         }
     </style>
 </head>
@@ -160,10 +211,10 @@
         
         <div id="formDiv">
             <label>ИМЕНА УЧАСТНИКОВ</label>
-            <textarea id="participantNames" rows="5" placeholder="Введите имена, каждое с новой строки:&#10;&#10;Например:&#10;Иван Керло&#10;Арсений Гаврин&#10;Тимофей Глушков&#10;Милана Пушилина&#10;Дарья Колган&#10;Юлия Язлюк"></textarea>
+            <textarea id="participantNames" rows="5" placeholder="Введите имена, каждое с новой строки:&#10;&#10;Например:&#10;Милана Пушилина&#10;Дарья Колган&#10;Юлия Язлюк"></textarea>
             
             <label>НАЗВАНИЕ КОМАНДЫ (необязательно)</label>
-            <input type="text" id="teamName" placeholder="Например: Громкие сердца">
+            <input type="text" id="teamName" placeholder="Например: ЯНЬЧАРЫ">
             
             <label>НОМИНАЦИЯ</label>
             <select id="nomination">
@@ -173,6 +224,7 @@
                 <option value="🌟 Приз зрительских симпатий">🌟 Приз зрительских симпатий</option>
                 <option value="🎸 Лучший капитан">🎸 Лучший капитан</option>
                 <option value="⚡ За волю к победе">⚡ За волю к победе</option>
+                <option value="🎧 1 место">🎧 1 место</option>
             </select>
             
             <button id="generateBtn">СОЗДАТЬ ГРАМОТУ</button>
@@ -180,13 +232,12 @@
         
         <div id="diplomaDiv" class="hidden"></div>
         <div id="errorDiv" class="error hidden"></div>
-        <div class="footer">Грамота сохраняется в виде картинки</div>
+        <div class="footer">Грамота формата А4 — сохраните и распечатайте</div>
     </div>
 
     <script>
         let isProcessing = false;
         
-        // Функция для защиты от XSS атак
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
@@ -195,46 +246,55 @@
         
         function showDiploma(participantNamesText, teamName, nomination) {
             const diplomaDiv = document.getElementById('diplomaDiv');
-            const displayTeam = teamName ? `${teamName} · ` : '';
+            const displayTeam = teamName ? `${escapeHtml(teamName)} · ` : '';
             
-            // Разбиваем текст на отдельные имена (по переносам строк)
             let namesArray = participantNamesText.split('\n');
-            
-            // Очищаем каждое имя от лишних пробелов и удаляем пустые строки
             namesArray = namesArray
                 .map(name => name.trim())
                 .filter(name => name !== '');
             
-            // Создаём HTML со всеми именами, каждое на отдельной строке
             let namesHtml = '';
             namesArray.forEach(name => {
                 namesHtml += `<div class="winner-name">${escapeHtml(name)}</div>`;
             });
             
             diplomaDiv.innerHTML = `
-                <div class="diploma" id="diplomaToDownload">
-                    <div class="diploma-content">
-                        <div class="diploma-header">
-                            <img src="logo.jpg" alt="Логотип" class="logo" onerror="this.style.display='none'">
-                            <h2>ROCK QUIZ</h2>
-                            <p>Музыкальная битва</p>
+                <div class="diploma-wrapper">
+                    <div class="diploma" id="diplomaToDownload">
+                        <div class="diploma-content">
+                            <div class="diploma-header">
+                                <img src="logo.jpg" alt="Логотип" class="logo" onerror="this.style.display='none'">
+                                <h2>ROCK QUIZ</h2>
+                                <p>Музыкальная битва</p>
+                            </div>
+                            <div class="award-text">НАГРАЖДАЕТСЯ</div>
+                            ${namesHtml}
+                            <div class="nomination">${displayTeam}${escapeHtml(nomination)}</div>
+                            <div class="date">г. Липецк, 28 мая 2026 года</div>
                         </div>
-                        <div class="award-text">НАГРАЖДАЕТСЯ</div>
-                        ${namesHtml}
-                        <div class="nomination">${displayTeam}${escapeHtml(nomination)}</div>
-                        <div class="date">г. Липецк, 28 мая 2026 года</div>
                     </div>
                 </div>
-                <button id="downloadBtn">💾 СКАЧАТЬ ГРАМОТУ</button>
-                <button id="backBtn" style="margin-top: 10px; background: #555;">◀ НАЗАД К ФОРМЕ</button>
+                <div class="button-group">
+                    <button id="downloadBtn">💾 СКАЧАТЬ PNG</button>
+                    <button id="printBtn" style="background: #2a6b2a;">🖨️ ПЕЧАТЬ</button>
+                    <button id="backBtn" class="btn-back">◀ НАЗАД</button>
+                </div>
             `;
             diplomaDiv.classList.remove('hidden');
             
-            // Кнопка скачивания
+            // Скачивание PNG
             document.getElementById('downloadBtn').addEventListener('click', async () => {
                 const element = document.getElementById('diplomaToDownload');
+                const originalOverflow = element.style.overflow;
+                element.style.overflow = 'visible';
+                
                 try {
-                    const canvas = await html2canvas(element, { scale: 2, backgroundColor: '#ffffff' });
+                    const canvas = await html2canvas(element, { 
+                        scale: 3,
+                        backgroundColor: '#ffffff',
+                        useCORS: true,
+                        logging: false
+                    });
                     const link = document.createElement('a');
                     const fileName = namesArray.length === 1 
                         ? `gramota_${namesArray[0].replace(/\s/g, '_')}.png`
@@ -243,8 +303,122 @@
                     link.href = canvas.toDataURL('image/png');
                     link.click();
                 } catch(err) {
-                    alert('Ошибка при сохранении грамоты');
+                    alert('Ошибка при сохранении грамоты: ' + err);
+                } finally {
+                    element.style.overflow = originalOverflow;
                 }
+            });
+            
+            // Печать
+            document.getElementById('printBtn').addEventListener('click', () => {
+                const originalTitle = document.title;
+                document.title = 'Грамота';
+                
+                const printContent = document.getElementById('diplomaToDownload').cloneNode(true);
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Грамота</title>
+                        <style>
+                            * {
+                                margin: 0;
+                                padding: 0;
+                                box-sizing: border-box;
+                            }
+                            body {
+                                margin: 0;
+                                padding: 0;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                background: white;
+                            }
+                            .diploma {
+                                width: 210mm;
+                                min-height: 297mm;
+                                padding: 40px 30px;
+                                background: url('back.jpg') center/cover no-repeat;
+                                border: 2px solid #cc0000;
+                                page-break-after: avoid;
+                                break-inside: avoid;
+                            }
+                            .logo {
+                                display: block;
+                                margin: 0 auto 15px auto;
+                                width: 80px;
+                            }
+                            .diploma-content {
+                                text-align: center;
+                                color: white;
+                                height: 100%;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+                            }
+                            .diploma-header h2 {
+                                font-family: 'Russo One', cursive;
+                                color: #ff5555;
+                                font-size: 2.2rem;
+                                margin-bottom: 5px;
+                            }
+                            .diploma-header p {
+                                font-family: Arial, sans-serif;
+                                margin-bottom: 30px;
+                            }
+                            .award-text {
+                                font-size: 1.3rem;
+                                margin: 15px 0 10px 0;
+                                font-weight: bold;
+                            }
+                            .winner-name {
+                                font-size: 1.8rem;
+                                margin: 5px 0;
+                                padding: 3px 10px;
+                                background: rgba(0,0,0,0.4);
+                                display: inline-block;
+                                border-radius: 8px;
+                                font-family: 'Bebas Neue', cursive;
+                            }
+                            .nomination {
+                                font-size: 1.3rem;
+                                font-weight: bold;
+                                color: #cc0000;
+                                margin: 20px 0 10px 0;
+                            }
+                            .date {
+                                font-size: 0.9rem;
+                                margin-top: 20px;
+                            }
+                            @media print {
+                                body {
+                                    margin: 0;
+                                    padding: 0;
+                                }
+                                .diploma {
+                                    margin: 0;
+                                    padding: 0;
+                                    box-shadow: none;
+                                    border: 2px solid #cc0000;
+                                }
+                            }
+                        </style>
+                        <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Oswald:wght@400;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+                    </head>
+                    <body>
+                        ${printContent.outerHTML}
+                        <script>
+                            window.onload = () => {
+                                window.print();
+                                window.onafterprint = () => window.close();
+                            };
+                        <\/script>
+                    </body>
+                    </html>
+                `);
+                printWindow.document.close();
+                document.title = originalTitle;
             });
             
             // Кнопка "Назад"
@@ -265,14 +439,12 @@
             const formDiv = document.getElementById('formDiv');
             const generateBtn = document.getElementById('generateBtn');
             
-            // Проверяем, что поле с именами не пустое
             if (!participantNames) {
                 errorDiv.innerHTML = '❌ Введите хотя бы одно имя участника';
                 errorDiv.classList.remove('hidden');
                 return;
             }
             
-            // Проверка, есть ли хоть одна непустая строка
             const hasValidNames = participantNames.split('\n').some(line => line.trim() !== '');
             if (!hasValidNames) {
                 errorDiv.innerHTML = '❌ Введите хотя бы одно имя участника';
