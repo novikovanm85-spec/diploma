@@ -155,7 +155,7 @@
             filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
         }
 
-        /* ЗАГОЛОВОК И ПОДЗАГОЛОВОК — КРАСНЫЕ, как ты просил */
+        /* ЗАГОЛОВОК И ПОДЗАГОЛОВОК — КРАСНЫЕ */
         .diploma-header h2 {
             font-family: 'Russo One', sans-serif;
             color: #dd3b3b;
@@ -205,15 +205,19 @@
             line-height: 1.4;
         }
 
-        /* Номинация — белая */
+        /* НОМИНАЦИЯ / КОМАНДА + МЕСТО — ЖЁЛТЫЙ ЦВЕТ И БОЛЬШОЙ ШРИФТ, как на картинке */
         .nomination {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #ffffff;
-            margin: 14px 0 10px;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 0 #6e1e1e;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #FFD700;
+            margin: 16px 0 12px;
+            letter-spacing: 1.5px;
+            text-shadow: 2px 2px 0 #6e1e1e;
+            background: rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 50px;
         }
 
         /* Только город и дата — без лишних фраз */
@@ -288,6 +292,11 @@
             .diploma-header p {
                 color: #dd3b3b !important;
             }
+            
+            .nomination {
+                color: #FFD700 !important;
+                font-size: 1.6rem !important;
+            }
 
             * {
                 -webkit-print-color-adjust: exact;
@@ -306,6 +315,10 @@
             .diploma-header h2 {
                 font-size: 1.7rem;
             }
+            .nomination {
+                font-size: 1.3rem;
+                padding: 6px 16px;
+            }
         }
     </style>
 </head>
@@ -320,7 +333,7 @@
             <div class="hint">✍️ Каждое имя пишите через запятую — на грамоте они будут на отдельных строках.</div>
 
             <label>🏷️ КОМАНДА (необязательно)</label>
-            <input type="text" id="teamName" placeholder="Например: ЯНЬЧАРЫ · 1 место">
+            <input type="text" id="teamName" placeholder="Например: ЯНЬЧАРЫ">
 
             <label>🏆 НОМИНАЦИЯ / МЕСТО</label>
             <select id="nomination">
@@ -371,7 +384,13 @@
 
         function showDiploma(namesArray, teamName, nomination) {
             const diplomaDiv = document.getElementById('diplomaDiv');
-            const displayTeam = teamName && teamName.trim() !== "" ? `${escapeHtml(teamName)} · ` : "";
+            // Формируем строку: если команда есть, то "КОМАНДА · МЕСТО", иначе просто "МЕСТО"
+            let nominationText = '';
+            if (teamName && teamName.trim() !== "") {
+                nominationText = `${escapeHtml(teamName)} · ${escapeHtml(nomination)}`;
+            } else {
+                nominationText = escapeHtml(nomination);
+            }
 
             let namesHtml = '';
             for (let i = 0; i < namesArray.length; i++) {
@@ -388,7 +407,7 @@
                         </div>
                         <div class="award-text">НАГРАЖДАЕТСЯ</div>
                         <div class="names-list">${namesHtml}</div>
-                        <div class="nomination">${displayTeam}${escapeHtml(nomination)}</div>
+                        <div class="nomination">${nominationText}</div>
                         <div class="date">г. Липецк, 28 мая 2026 года</div>
                     </div>
                 </div>
@@ -533,11 +552,16 @@
                             }
                             .nomination {
                                 font-family: 'Oswald', sans-serif;
-                                font-size: 1.2rem;
-                                font-weight: 700;
-                                color: #ffffff;
-                                margin: 14px 0 8px;
-                                text-shadow: 1px 1px 0 #6e1e1e;
+                                font-size: 1.6rem;
+                                font-weight: 800;
+                                color: #FFD700;
+                                margin: 16px 0 12px;
+                                letter-spacing: 1.5px;
+                                text-shadow: 2px 2px 0 #6e1e1e;
+                                background: rgba(0, 0, 0, 0.2);
+                                display: inline-block;
+                                padding: 8px 24px;
+                                border-radius: 50px;
                             }
                             .date {
                                 font-family: 'Inter', sans-serif;
