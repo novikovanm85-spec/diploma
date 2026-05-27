@@ -3,567 +3,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Создать грамоту | Музыкальный Квиз — Рок-битва</title>
+    <title>Создать грамоту | Музыкальный Квиз</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Russo+One&family=Oswald:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #0a0000;
             font-family: 'Inter', sans-serif;
-            padding: 24px 16px;
+            padding: 20px;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
-        /* главная карточка формы */
         .container {
-            max-width: 540px;
+            max-width: 550px;
             width: 100%;
             background: #1a1a1a;
-            border-radius: 28px;
-            padding: 28px 24px 32px;
+            border-radius: 20px;
+            padding: 30px;
             border: 1px solid #cc0000;
-            box-shadow: 0 20px 35px rgba(0,0,0,0.5);
         }
-
-        h1 {
+        h1 { 
             font-family: 'Russo One', sans-serif;
-            color: #cc0000;
-            text-align: center;
-            margin-bottom: 28px;
-            font-size: 1.9rem;
-            letter-spacing: 1px;
-            word-break: keep-all;
+            color: #cc0000; 
+            text-align: center; 
+            margin-bottom: 25px; 
+            font-size: 1.8rem; 
         }
-
-        label {
+        label { 
             font-family: 'Oswald', sans-serif;
-            color: #cc0000;
-            display: block;
-            margin-bottom: 6px;
+            color: #cc0000; 
+            display: block; 
+            margin-bottom: 5px; 
             font-weight: 600;
-            font-size: 0.95rem;
-            letter-spacing: 0.5px;
         }
-
-        input, select {
+        input, select, textarea {
             width: 100%;
-            padding: 12px 14px;
-            margin-bottom: 22px;
+            padding: 12px;
+            margin-bottom: 20px;
             background: #2a2a2a;
             border: 1px solid #444;
-            color: #f0f0f0;
-            border-radius: 14px;
+            color: white;
+            border-radius: 10px;
             font-size: 1rem;
             font-family: 'Inter', sans-serif;
-            transition: 0.2s;
         }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: #cc0000;
-            background: #2f2f2f;
+        textarea {
+            resize: vertical;
+            min-height: 120px;
         }
-
         button {
             background: #cc0000;
             color: white;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             letter-spacing: 2px;
             border: none;
-            padding: 14px;
+            padding: 15px;
             width: 100%;
-            border-radius: 40px;
+            border-radius: 10px;
             cursor: pointer;
-            margin-top: 8px;
-            transition: transform 0.1s ease, background 0.2s;
+            margin-top: 10px;
         }
-
-        button:active {
-            transform: scale(0.97);
-        }
-
-        button:disabled {
-            background: #5a3a3a;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
+        button:disabled { background: #555; cursor: not-allowed; }
         .error {
-            background: rgba(204, 0, 0, 0.2);
-            padding: 12px;
-            border-radius: 16px;
-            margin-top: 18px;
+            background: rgba(204,0,0,0.2);
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 15px;
             text-align: center;
-            color: #ff9999;
-            font-weight: 500;
-            backdrop-filter: blur(2px);
+            color: #ff8888;
         }
-
-        /* ========= СТИЛИ ДЛЯ ГРАМОТЫ (А4-дружественные + растяжение) ========= */
-        /* Обертка для скачивания и печати */
-        .diploma-container {
-            margin-top: 28px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Главный блок грамоты — точные пропорции под А4 (по ширине) */
-        .diploma-card {
+        .diploma {
             background: url('back.jpg') center/cover no-repeat;
-            background-color: #0b0b0b;
-            width: 100%;
-            max-width: 900px;
-            border-radius: 20px;
+            background-color: #0a0a0a;
+            padding: 30px 20px;
+            border-radius: 15px;
+            margin-top: 20px;
             border: 3px solid #cc0000;
-            box-shadow: 0 18px 30px rgba(0,0,0,0.6);
-            position: relative;
-            transition: all 0.2s;
-            /* сделаем гибкий внутренний отступ, чтобы контент не прилипал */
         }
-
-        /* внутренний контент грамоты с мягкими полями */
-        .diploma-inner {
-            padding: 2.2rem 2rem 2.5rem;
-            backdrop-filter: brightness(0.85);
-            background: rgba(0, 0, 0, 0.45);
-            border-radius: 17px;
-            color: #fff;
+        .logo {
+            display: block;
+            margin: 0 auto 15px auto;
+            width: 80px;
+            height: auto;
+        }
+        .diploma-content {
+            background: rgba(0,0,0,0.6);
+            padding: 20px;
+            border-radius: 12px;
             text-align: center;
         }
-
-        .logo-img {
-            display: block;
-            margin: 0 auto 12px auto;
-            width: 85px;
-            height: auto;
-            filter: drop-shadow(0 0 3px #ffbb00);
-        }
-
         .diploma-header h2 {
             font-family: 'Russo One', sans-serif;
-            color: #ff4d4d;
-            font-size: 2.3rem;
-            margin-bottom: 5px;
-            letter-spacing: 3px;
-            text-shadow: 2px 2px 0 #4a0000;
+            color: #ff5555;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
         }
-
         .diploma-header p {
             font-family: 'Inter', sans-serif;
-            color: #f2e8c9;
+            color: #dddddd;
             font-size: 1rem;
-            letter-spacing: 1px;
-            font-weight: 500;
             margin-bottom: 20px;
-            border-top: 1px dashed #cc0000;
-            display: inline-block;
-            padding-top: 8px;
         }
-
-        .award-title {
+        .award-text {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.35rem;
-            margin: 18px 0 10px;
+            font-size: 1.2rem;
+            margin: 20px 0 10px;
             font-weight: 600;
-            color: #ffcc77;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            color: #ffcc88;
         }
-
-        /* !!! КЛЮЧЕВАЯ ЧАСТЬ: многострочный список имён !!! */
-        .multiline-names {
+        /* СТИЛЬ ДЛЯ СПИСКА ИМЁН (каждое с новой строки) */
+        .names-list {
             font-family: 'Bebas Neue', cursive;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 400;
             letter-spacing: 1px;
             color: #ffffff;
-            margin: 20px 0 15px;
-            padding: 18px 12px;
-            background: rgba(0, 0, 0, 0.65);
-            border-radius: 28px;
-            border-left: 5px solid #cc0000;
-            border-right: 5px solid #cc0000;
-            word-break: break-word;
-            white-space: pre-line;
-            line-height: 1.45;
-            text-shadow: 0 1px 2px black;
-            display: inline-block;
-            width: 100%;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 15px;
             text-align: center;
         }
-
-        /* каждая отдельная строка — фамилия имя */
-        .multiline-names span {
+        .names-list span {
             display: block;
-            font-size: inherit;
-            margin: 4px 0;
+            margin: 5px 0;
+            line-height: 1.3;
         }
-
-        .nomination-block {
+        .nomination {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #ffaa33;
-            background: rgba(0,0,0,0.55);
-            display: inline-block;
-            padding: 8px 20px;
-            border-radius: 50px;
-            margin: 10px 0 12px;
-            letter-spacing: 0.5px;
-        }
-
-        .date-line {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
-            margin-top: 28px;
-            color: #dddddd;
-            border-top: 1px solid rgba(204,0,0,0.6);
-            padding-top: 15px;
-            width: 80%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Кнопка скачать грамоту под дипломом */
-        .download-diploma-btn {
-            background: #1f6d1f;
-            margin-top: 24px;
-            width: 90%;
-            max-width: 350px;
             font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffaa33;
+            margin: 15px 0;
         }
-
-        .download-diploma-btn:hover {
-            background: #2c8c2c;
+        .date {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            margin-top: 20px;
+            color: #dddddd;
         }
-
-        .hidden {
-            display: none;
-        }
-
-        .footer {
-            text-align: center;
-            font-size: 0.7rem;
-            color: #999;
-            margin-top: 28px;
-        }
-
-        /* Адаптив для мобильных, грамота остается читаемой */
-        @media (max-width: 550px) {
-            .diploma-inner {
-                padding: 1.4rem 1rem;
-            }
-            .multiline-names {
-                font-size: 1.3rem;
-                padding: 12px 8px;
-            }
-            .diploma-header h2 {
-                font-size: 1.8rem;
-            }
-            .nomination-block {
-                font-size: 1rem;
-            }
-        }
-
-        /* Стили для печати на А4 (чтобы грамота занимала весь лист) */
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-                margin: 0;
-            }
-            .container, .footer, .download-diploma-btn, #errorDiv, .hidden, button:not(.print-keep) {
-                display: none !important;
-            }
-            .diploma-card {
-                width: 100%;
-                max-width: 100%;
-                margin: 0;
-                border-radius: 0;
-                border: 2px solid #cc0000;
-                box-shadow: none;
-                page-break-inside: avoid;
-                break-inside: avoid;
-            }
-            .diploma-inner {
-                background: rgba(0,0,0,0.7);
-                padding: 1.8cm 1.5cm;
-                min-height: 297mm; /* высота почти А4 */
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-            .multiline-names {
-                background: rgba(0,0,0,0.7);
-                border: 2px solid #cc0000;
-            }
-            .logo-img {
-                filter: drop-shadow(0 0 1px gold);
-            }
-            body * {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
+        .hidden { display: none; }
+        .footer { text-align: center; font-size: 0.7rem; color: #666; margin-top: 20px; }
+        .hint {
+            font-size: 0.75rem;
+            color: #aa8888;
+            margin-top: -15px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
-<div class="container" id="app">
-    <h1>🏆 ROCK QUIZ · ГРАМОТА</h1>
-
-    <div id="formDiv">
-        <label>👥 ИМЕНА УЧАСТНИКОВ (каждое с новой строки)</label>
-        <input type="text" id="participantNamesRaw" 
-               placeholder="Например: Иван Гаврин&#10;Арсений Тимофей&#10;Милана Глушкова&#10;Дарья Пушилина&#10;Юлия Колган&#10;Керло Язлюк" 
-               style="min-height: 110px; white-space: pre-wrap;">
-        <div style="font-size: 12px; color: #aaa; margin-top: -15px; margin-bottom: 15px;">✏️ Введите каждое имя с новой строки (Enter). Будет красиво выведено в столбик.</div>
+    <div class="container" id="app">
+        <h1>🏆 СОЗДАТЬ ГРАМОТУ</h1>
         
-        <label>🏷️ НАЗВАНИЕ КОМАНДЫ (необязательно)</label>
-        <input type="text" id="teamName" placeholder="Например: Янчары · 1 место">
+        <div id="formDiv">
+            <label>👥 ИМЕНА УЧАСТНИКОВ</label>
+            <textarea id="participantNames" placeholder="Введите имена через запятую, например:&#10;Иван Гаврин, Арсений Тимофей, Милана Глушкова, Дарья Пушилина, Юлия Колган, Керло Язлюк"></textarea>
+            <div class="hint">💡 Каждое имя пишите через запятую. Тогда на грамоте они будут на отдельных строчках.</div>
+            
+            <label>🏷️ НАЗВАНИЕ КОМАНДЫ (необязательно)</label>
+            <input type="text" id="teamName" placeholder="Например: Янчары · 🎵 1 место">
+            
+            <label>🎸 НОМИНАЦИЯ / МЕСТО</label>
+            <select id="nomination">
+                <option value="🥇 1 место">🥇 1 место</option>
+                <option value="🥈 2 место">🥈 2 место</option>
+                <option value="🥉 3 место">🥉 3 место</option>
+                <option value="🌟 Приз зрительских симпатий">🌟 Приз зрительских симпатий</option>
+                <option value="🎸 Лучший капитан">🎸 Лучший капитан</option>
+                <option value="⚡ За волю к победе">⚡ За волю к победе</option>
+            </select>
+            
+            <button id="generateBtn">СОЗДАТЬ ГРАМОТУ</button>
+        </div>
         
-        <label>🎸 НОМИНАЦИЯ / МЕСТО</label>
-        <select id="nomination">
-            <option value="🥇 1 место">🥇 1 место</option>
-            <option value="🥈 2 место">🥈 2 место</option>
-            <option value="🥉 3 место">🥉 3 место</option>
-            <option value="🌟 Приз зрительских симпатий">🌟 Приз зрительских симпатий</option>
-            <option value="🎸 Лучший капитан">🎸 Лучший капитан</option>
-            <option value="⚡ За волю к победе">⚡ За волю к победе</option>
-            <option value="🎤 Рок-прорыв года">🎤 Рок-прорыв года</option>
-        </select>
-        
-        <button id="generateBtn">✨ СОЗДАТЬ ГРАМОТУ (А4-формат)</button>
-        <div style="margin-top: 12px; font-size: 12px; text-align: center; color: #b77c7c;">★ Грамота заполнит лист А4 при печати ★</div>
+        <div id="diplomaDiv" class="hidden"></div>
+        <div id="errorDiv" class="error hidden"></div>
+        <div class="footer">📸 Грамота сохраняется в виде картинки | 🖨️ При печати выберите масштаб 100% для А4</div>
     </div>
-    
-    <div id="diplomaContainer" class="hidden diploma-container"></div>
-    <div id="errorDiv" class="error hidden"></div>
-    <div class="footer">⬇️ После создания нажмите «Скачать PNG» или отправьте на печать (Ctrl+P) — размер под А4</div>
-</div>
 
-<script>
-    let currentDiplomaElement = null;   // ссылка на DOM-элемент грамоты для повторной печати
-    let processingFlag = false;
-
-    // Функция для корректного преобразования строки с именами (разделитель: перенос строки, запятая, но мы рекомендуем \n)
-    function parseNamesList(rawInput) {
-        if (!rawInput.trim()) return [];
-        // Разделяем по переводу строки \n, а также по \r\n
-        let lines = rawInput.split(/\r?\n/);
-        // Фильтруем пустые строки и убираем лишние пробелы
-        let names = lines
-            .map(line => line.trim())
-            .filter(name => name !== "");
-        // Если после разделения нет ни одного имени — может быть ввод через запятую (резерв)
-        if (names.length === 0 && rawInput.includes(",")) {
-            names = rawInput.split(",").map(n => n.trim()).filter(n => n);
+    <script>
+        let isProcessing = false;
+        
+        // Функция для разбора имён (поддерживает запятые, точки с запятой, переводы строк)
+        function parseNames(input) {
+            if (!input.trim()) return [];
+            
+            // Сначала пробуем разделить по запятой
+            if (input.includes(',')) {
+                return input.split(',').map(n => n.trim()).filter(n => n);
+            }
+            // Если запятых нет, пробуем по точке с запятой
+            if (input.includes(';')) {
+                return input.split(';').map(n => n.trim()).filter(n => n);
+            }
+            // Если нет разделителей, пробуем по переводу строки
+            if (input.includes('\n')) {
+                return input.split('\n').map(n => n.trim()).filter(n => n);
+            }
+            // Иначе возвращаем как одно имя
+            return [input.trim()];
         }
-        return names;
-    }
-
-    // Отображает имена вертикально, каждое имя отдельная строка (с возможными дополнительными стилями)
-    function buildNamesHtml(namesArray) {
-        if (!namesArray.length) {
-            return '<span style="font-size:1.4rem;">Победитель</span>';
-        }
-        // каждое имя будет обернуто в <span> для вертикальной группировки
-        let itemsHtml = namesArray.map(name => `<span>${escapeHtml(name)}</span>`).join('');
-        return `<div class="multiline-names">${itemsHtml}</div>`;
-    }
-
-    // простая защита от XSS
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-            return c;
-        });
-    }
-
-    // Главная функция рендеринга грамоты с поддержкой многострочных имен
-    function renderDiploma(participantNamesList, teamNameRaw, nominationValue) {
-        // participantNamesList - массив строк (имена/фамилии)
-        const displayTeam = teamNameRaw && teamNameRaw.trim() !== "" ? `${teamNameRaw.trim()} · ` : "";
         
-        // Строим блок с именами (каждый на новой строке)
-        const namesHtmlBlock = buildNamesHtml(participantNamesList);
-        
-        // Если нет имён, подставляем заглушку
-        const finalNamesBlock = (participantNamesList.length === 0) 
-            ? '<div class="multiline-names"><span>НЕ УКАЗАН</span></div>' 
-            : namesHtmlBlock;
-        
-        // Формируем чистый HTML грамоты с фоном back.jpg (если картинка недоступна - просто цветной фон)
-        // Логотип используем logo.jpg, при ошибке скрывается через onerror
-        return `
-            <div class="diploma-card" id="diplomaToDownload">
-                <div class="diploma-inner">
-                    <img src="logo.jpg" alt="ROCK QUIZ" class="logo-img" onerror="this.style.display='none'">
-                    <div class="diploma-header">
-                        <h2>ROCK QUIZ</h2>
-                        <p>МУЗЫКАЛЬНАЯ БИТВА · ЛИПЕЦК</p>
+        // Функция отображения грамоты
+        function showDiploma(namesArray, teamName, nomination) {
+            const diplomaDiv = document.getElementById('diplomaDiv');
+            const displayTeam = teamName ? `${teamName} · ` : '';
+            
+            // Создаём HTML для каждого имени в отдельной строке
+            let namesHtml = '';
+            for (let i = 0; i < namesArray.length; i++) {
+                namesHtml += `<span>${escapeHtml(namesArray[i])}</span>`;
+            }
+            
+            diplomaDiv.innerHTML = `
+                <div class="diploma" id="diplomaToDownload">
+                    <div class="diploma-content">
+                        <div class="diploma-header">
+                            <img src="logo.jpg" alt="Логотип" class="logo" onerror="this.style.display='none'">
+                            <h2>ROCK QUIZ</h2>
+                            <p>Музыкальная битва</p>
+                        </div>
+                        <div class="award-text">🏅 НАГРАЖДАЕТСЯ</div>
+                        <div class="names-list">${namesHtml}</div>
+                        <div class="nomination">${displayTeam}${nomination}</div>
+                        <div class="date">г. Липецк, 28 мая 2026 года | Рок-олимп гремит!</div>
                     </div>
-                    <div class="award-title">🏅 НАГРАЖДАЕТСЯ</div>
-                    ${finalNamesBlock}
-                    <div class="nomination-block">${displayTeam}${nominationValue}</div>
-                    <div class="date-line">г. Липецк, 28 мая 2026 года  |  Рок-олимп гремит!</div>
                 </div>
-            </div>
-        `;
-    }
-
-    // Показать грамоту в контейнере + добавить кнопку скачивания и кнопку печати (опционально)
-    function showDiplomaWithButtons(namesArray, teamName, nomination) {
-        const container = document.getElementById('diplomaContainer');
-        // Рендерим полную разметку грамоты
-        const diplomaHtml = renderDiploma(namesArray, teamName, nomination);
-        container.innerHTML = `
-            <div class="diploma-wrapper" style="width:100%; display:flex; flex-direction:column; align-items:center;">
-                ${diplomaHtml}
-                <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-top: 20px;">
-                    <button id="downloadAsImageBtn" class="download-diploma-btn" style="background:#b13e3e;">📸 СКАЧАТЬ PNG (для соцсетей)</button>
-                    <button id="printDiplomaBtn" class="download-diploma-btn" style="background:#2c5e2c;">🖨️ ПЕЧАТЬ / СОХРАНИТЬ PDF (А4)</button>
+                <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+                    <button id="downloadBtn" style="background: #1a6e1a;">💾 СКАЧАТЬ PNG</button>
+                    <button id="printBtn" style="background: #2a5f8a;">🖨️ ПЕЧАТЬ (А4)</button>
                 </div>
-                <div style="font-size: 12px; color: #aaa; margin-top: 15px; text-align:center;">
-                    ⚡ Для распечатки на весь лист А4 выберите «Печать» → настройки: поля по умолчанию, масштаб 100% (или «Подогнать») 
-                </div>
-            </div>
-        `;
-        container.classList.remove('hidden');
-        
-        // Навешиваем обработчики для скачивания PNG и печати
-        const downloadBtn = document.getElementById('downloadAsImageBtn');
-        const printBtn = document.getElementById('printDiplomaBtn');
-        
-        // Находим элемент, который нужно скопировать в canvas (именно блок .diploma-card)
-        const diplomaElement = document.querySelector('#diplomaContainer .diploma-card');
-        if (!diplomaElement) return;
-        
-        // Функция скачивания PNG с высоким качеством (сохраняем фон и все детали)
-        if (downloadBtn) {
-            downloadBtn.addEventListener('click', async () => {
+            `;
+            diplomaDiv.classList.remove('hidden');
+            
+            // Скачивание PNG
+            document.getElementById('downloadBtn').addEventListener('click', async () => {
+                const element = document.getElementById('diplomaToDownload');
                 try {
-                    downloadBtn.innerText = '🔄 Генерация PNG...';
-                    downloadBtn.disabled = true;
-                    // Убираем временные искажения, сохраняем стили
-                    const canvas = await html2canvas(diplomaElement, {
-                        scale: 3,
-                        backgroundColor: null,
-                        useCORS: true,
-                        logging: false,
-                        allowTaint: false
-                    });
+                    const btn = document.getElementById('downloadBtn');
+                    btn.textContent = '⏳ СОХРАНЕНИЕ...';
+                    btn.disabled = true;
+                    const canvas = await html2canvas(element, { scale: 2.5, backgroundColor: '#ffffff' });
                     const link = document.createElement('a');
-                    let filename = "gramota_rock_quiz";
+                    let fileName = 'gramota';
                     if (namesArray.length > 0) {
-                        filename = `gramota_${namesArray[0].replace(/\s/g, '_')}`;
-                    } else {
-                        filename = "rock_diploma";
+                        fileName = `gramota_${namesArray[0].replace(/\s/g, '_')}`;
                     }
-                    link.download = `${filename}.png`;
+                    link.download = `${fileName}.png`;
                     link.href = canvas.toDataURL('image/png');
                     link.click();
-                    downloadBtn.innerText = '📸 СКАЧАТЬ PNG (для соцсетей)';
-                    downloadBtn.disabled = false;
-                } catch (err) {
-                    console.error(err);
-                    alert('Ошибка при создании PNG, попробуйте ещё раз');
-                    downloadBtn.innerText = '📸 СКАЧАТЬ PNG';
-                    downloadBtn.disabled = false;
+                    btn.textContent = '💾 СКАЧАТЬ PNG';
+                    btn.disabled = false;
+                } catch(err) {
+                    alert('Ошибка при сохранении грамоты');
+                    document.getElementById('downloadBtn').textContent = '💾 СКАЧАТЬ PNG';
+                    document.getElementById('downloadBtn').disabled = false;
                 }
             });
-        }
-        
-        // Печать грамоты на А4 (полный лист)
-        if (printBtn) {
-            printBtn.addEventListener('click', () => {
-                // Клонируем грамоту во временный контейнер для печати, чтобы не повлиять на основную страницу
-                const originalDiploma = diplomaElement;
-                const cloneDiploma = originalDiploma.cloneNode(true);
-                // Стили для печати уже прописаны в @media print, но мы создадим временный фрейм
+            
+            // Печать на А4
+            document.getElementById('printBtn').addEventListener('click', () => {
+                const originalContent = document.body.innerHTML;
+                const diplomaHtml = document.getElementById('diplomaToDownload').cloneNode(true);
+                
                 const printWindow = window.open('', '_blank');
-                if (!printWindow) {
-                    alert('Пожалуйста, разрешите всплывающие окна для печати');
-                    return;
-                }
-                const styles = document.querySelector('style').innerHTML;
-                // Дополнительные стили для печати, чтобы грамота заняла весь лист
                 printWindow.document.write(`
                     <!DOCTYPE html>
                     <html>
-                    <head><meta charset="UTF-8"><title>ROCK QUIZ Грамота</title>
-                    <style>
-                        * { margin: 0; padding: 0; box-sizing: border-box; }
-                        body {
-                            background: #2a2a2a;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            min-height: 100vh;
-                            padding: 0;
-                            margin: 0;
-                        }
-                        ${styles}
-                        /* Переопределяем для печатной версии - максимальное заполнение листа */
-                        @media print {
+                    <head>
+                        <title>ROCK QUIZ Грамота</title>
+                        <meta charset="UTF-8">
+                        <style>
+                            * { margin: 0; padding: 0; box-sizing: border-box; }
                             body {
                                 background: white;
-                                padding: 0;
-                                margin: 0;
-                            }
-                            .diploma-card {
-                                width: 100%;
-                                max-width: 100%;
-                                margin: 0;
-                                border-radius: 0;
-                                border: 2px solid #cc0000;
-                                box-shadow: none;
-                                page-break-inside: avoid;
-                                break-inside: avoid;
-                            }
-                            .diploma-inner {
-                                padding: 2rem 1.8rem;
-                                min-height: 297mm;
                                 display: flex;
-                                flex-direction: column;
                                 justify-content: center;
-                                background: rgba(0,0,0,0.7);
+                                align-items: center;
+                                min-height: 100vh;
+                                margin: 0;
+                                padding: 20px;
                             }
-                            .multiline-names span {
-                                font-size: 1.7rem;
+                            .print-diploma {
+                                width: 100%;
+                                max-width: 900px;
+                                margin: 0 auto;
                             }
-                            body * {
-                                -webkit-print-color-adjust: exact;
-                                print-color-adjust: exact;
+                            .diploma {
+                                background: url('back.jpg') center/cover no-repeat;
+                                padding: 40px 30px;
+                                border: 3px solid #cc0000;
+                                border-radius: 15px;
                             }
-                        }
-                        .diploma-card {
-                            width: 100%;
-                            max-width: 1000px;
-                            margin: 20px auto;
-                        }
-                        .logo-img {
-                            width: 90px;
-                        }
-                    </style>
+                            .diploma-content {
+                                background: rgba(0,0,0,0.65);
+                                padding: 30px;
+                                border-radius: 15px;
+                                text-align: center;
+                            }
+                            .logo { width: 100px; margin-bottom: 15px; }
+                            .diploma-header h2 { font-family: 'Russo One', sans-serif; color: #ff5555; font-size: 2.2rem; }
+                            .diploma-header p { color: #ddd; font-size: 1rem; margin-top: 5px; }
+                            .award-text { font-size: 1.3rem; color: #ffcc88; margin: 20px 0; }
+                            .names-list { font-family: 'Bebas Neue', cursive; font-size: 1.8rem; color: white; background: rgba(0,0,0,0.5); padding: 20px; border-radius: 15px; }
+                            .names-list span { display: block; margin: 8px 0; }
+                            .nomination { font-size: 1.3rem; color: #ffaa33; margin: 20px 0; }
+                            .date { color: #ccc; margin-top: 20px; }
+                            @media print {
+                                body { padding: 0; margin: 0; }
+                                .print-diploma { max-width: 100%; }
+                                .diploma { border: 2px solid #cc0000; }
+                                * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                            }
+                        </style>
                     </head>
                     <body>
-                        ${cloneDiploma.outerHTML}
+                        <div class="print-diploma">${diplomaHtml.outerHTML}</div>
                         <script>
                             window.onload = () => {
                                 setTimeout(() => {
@@ -578,64 +339,52 @@
                 printWindow.document.close();
             });
         }
-    }
-    
-    // Обработчик кнопки "Создать грамоту"
-    document.getElementById('generateBtn').addEventListener('click', async () => {
-        if (processingFlag) return;
         
-        const rawNamesInput = document.getElementById('participantNamesRaw').value;
-        const teamNameField = document.getElementById('teamName').value;
-        const nominationSelect = document.getElementById('nomination').value;
-        const errorDiv = document.getElementById('errorDiv');
-        const formDiv = document.getElementById('formDiv');
-        const diplomaContainer = document.getElementById('diplomaContainer');
-        const generateBtn = document.getElementById('generateBtn');
-        
-        // Парсим имена (поддерживаем ввод многострочный)
-        let namesList = parseNamesList(rawNamesInput);
-        
-        // если поле пустое — выводим предупреждение
-        if (namesList.length === 0) {
-            errorDiv.innerHTML = '❌ Введите хотя бы одно имя участника! Каждое имя с новой строки или через запятую.';
-            errorDiv.classList.remove('hidden');
-            return;
+        function escapeHtml(str) {
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
         }
         
-        // Ограничение: не более 20 имён для читаемости
-        if (namesList.length > 24) {
-            errorDiv.innerHTML = '⚠️ Слишком много имён (макс. 24). Грамота может выглядеть перегруженной.';
-            errorDiv.classList.remove('hidden');
-            return;
-        }
+        // Обработчик кнопки
+        document.getElementById('generateBtn').addEventListener('click', async () => {
+            if (isProcessing) return;
+            
+            const namesInput = document.getElementById('participantNames').value;
+            const teamName = document.getElementById('teamName').value.trim();
+            const nomination = document.getElementById('nomination').value;
+            const errorDiv = document.getElementById('errorDiv');
+            const formDiv = document.getElementById('formDiv');
+            const generateBtn = document.getElementById('generateBtn');
+            
+            // Разбираем имена
+            let namesArray = parseNames(namesInput);
+            
+            if (namesArray.length === 0) {
+                errorDiv.innerHTML = '❌ Введите хотя бы одно имя участника! Используйте запятые для разделения.';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+            
+            errorDiv.classList.add('hidden');
+            isProcessing = true;
+            generateBtn.disabled = true;
+            generateBtn.textContent = 'СОЗДАНИЕ...';
+            
+            formDiv.classList.add('hidden');
+            showDiploma(namesArray, teamName, nomination);
+            
+            generateBtn.disabled = false;
+            isProcessing = false;
+        });
         
-        errorDiv.classList.add('hidden');
-        processingFlag = true;
-        generateBtn.disabled = true;
-        generateBtn.textContent = '🎸 ФОРМИРУЕМ ГРАМОТУ...';
-        
-        // Скрываем форму, показываем будущий контейнер (если уже был показан — очистим)
-        formDiv.classList.add('hidden');
-        diplomaContainer.classList.add('hidden');
-        diplomaContainer.innerHTML = '';
-        
-        // небольшая задержка для имитации (можно убрать)
-        await new Promise(r => setTimeout(r, 30));
-        
-        // Отображаем готовую грамоту с кнопками скачивания/печати
-        showDiplomaWithButtons(namesList, teamNameField, nominationSelect);
-        
-        generateBtn.disabled = false;
-        processingFlag = false;
-        generateBtn.textContent = '✨ СОЗДАТЬ ГРАМОТУ (А4-формат)';
-    });
-    
-    // Дополнительно: предзаполнение примером из задания (Иван Гаврин, Арсений Тимофей, Милана Глушкова, Дарья Пушилина, Юлия Колган, Керло Язлюк)
-    const exampleNames = "Иван Гаврин\nАрсений Тимофей\nМилана Глушкова\nДарья Пушилина\nЮлия Колган\nКерло Язлюк";
-    const defaultTeam = "Янчары · 🎵 1 место";
-    document.getElementById('participantNamesRaw').value = exampleNames;
-    document.getElementById('teamName').value = defaultTeam;
-    document.getElementById('nomination').value = "🥇 1 место";
-</script>
+        // Пример из вашей картинки (предзаполнение)
+        document.getElementById('participantNames').value = 'Иван Гаврин, Арсений Тимофей, Милана Глушкова, Дарья Пушилина, Юлия Колган, Керло Язлюк';
+        document.getElementById('teamName').value = 'Янчары';
+        document.getElementById('nomination').value = '🥇 1 место';
+    </script>
 </body>
 </html>
