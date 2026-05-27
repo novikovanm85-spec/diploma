@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Создать грамоту | Музыкальный Квиз</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Russo+One&family=Oswald:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <title>Создать грамоту | ROCK QUIZ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Russo+One&family=Oswald:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #0a0000;
+            background: #0a0a0a;
             font-family: 'Inter', sans-serif;
             padding: 20px;
             min-height: 100vh;
@@ -23,18 +23,18 @@
             background: #1a1a1a;
             border-radius: 20px;
             padding: 30px;
-            border: 1px solid #cc0000;
+            border: 1px solid #cc3333;
         }
         h1 { 
             font-family: 'Russo One', sans-serif;
-            color: #cc0000; 
+            color: #cc3333; 
             text-align: center; 
             margin-bottom: 25px; 
             font-size: 1.8rem; 
         }
         label { 
             font-family: 'Oswald', sans-serif;
-            color: #cc0000; 
+            color: #cc3333; 
             display: block; 
             margin-bottom: 5px; 
             font-weight: 600;
@@ -55,7 +55,7 @@
             min-height: 120px;
         }
         button {
-            background: #cc0000;
+            background: #cc3333;
             color: white;
             font-family: 'Bebas Neue', sans-serif;
             font-size: 1.2rem;
@@ -69,25 +69,34 @@
         }
         button:disabled { background: #555; cursor: not-allowed; }
         .error {
-            background: rgba(204,0,0,0.2);
+            background: rgba(204,51,51,0.2);
             padding: 10px;
             border-radius: 10px;
             margin-top: 15px;
             text-align: center;
             color: #ff8888;
         }
-        /* ГРАМОТА — СВЕТЛЫЙ ТЁМНЫЙ СЛОЙ, ЧТОБЫ ВИДЕТЬ ФОН */
+        .hint {
+            font-size: 0.75rem;
+            color: #aa8888;
+            margin-top: -15px;
+            margin-bottom: 15px;
+        }
+        .footer { text-align: center; font-size: 0.7rem; color: #666; margin-top: 20px; }
+        .hidden { display: none; }
+
+        /* ===== СТИЛИ ГРАМОТЫ (как на первой картинке — светлый фон, белый текст) ===== */
         .diploma {
             background: url('back.jpg') center/cover no-repeat;
-            background-color: #2a1a1a;
-            padding: 30px 20px;
+            background-color: #8B0000;
+            padding: 40px 25px;
             border-radius: 15px;
             margin-top: 20px;
-            border: 3px solid #cc0000;
+            border: 3px solid #cc3333;
         }
-        /* УМЕНЬШИЛИ ПРОЗРАЧНОСТЬ — теперь фон видно гораздо лучше */
+        /* Прозрачный слой — почти незаметный, чтобы фон был виден, но текст читался */
         .diploma-content {
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(0, 0, 0, 0.25);
             padding: 25px 20px;
             border-radius: 12px;
             text-align: center;
@@ -100,76 +109,82 @@
         }
         .diploma-header h2 {
             font-family: 'Russo One', sans-serif;
-            color: #ff5555;
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-            text-shadow: 1px 1px 0 #4a0000;
+            color: #ffffff;
+            font-size: 2rem;
+            margin-bottom: 5px;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 0 #8B0000;
         }
         .diploma-header p {
             font-family: 'Inter', sans-serif;
-            color: #f0e6c5;
+            color: #f5e6d3;
             font-size: 1rem;
-            margin-bottom: 20px;
-            font-weight: 600;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
         }
         .award-text {
             font-family: 'Oswald', sans-serif;
             font-size: 1.2rem;
-            margin: 20px 0 10px;
+            margin: 15px 0 10px;
             font-weight: 600;
-            color: #ffdd99;
-            text-shadow: 1px 1px 0 #550000;
+            color: #ffffff;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 0 #8B0000;
         }
+        /* Список имён — каждое с новой строки, белый цвет */
         .names-list {
             font-family: 'Bebas Neue', cursive;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 400;
             letter-spacing: 1px;
             color: #ffffff;
             margin: 15px 0;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.5);
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 15px;
-            text-shadow: 1px 1px 0 #000;
+            text-shadow: 1px 1px 0 #5a0000;
         }
         .names-list span {
             display: block;
-            margin: 5px 0;
-            line-height: 1.3;
+            margin: 4px 0;
+            line-height: 1.35;
         }
+        /* Номинация — без жёлтого! Белый с лёгким оттенком */
         .nomination {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 600;
-            color: #ffcc44;
+            color: #ffffff;
             margin: 15px 0;
-            text-shadow: 1px 1px 0 #660000;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 0 #8B0000;
         }
         .date {
             font-family: 'Inter', sans-serif;
             font-size: 0.8rem;
             margin-top: 20px;
-            color: #eeeeee;
+            color: #f0e0d0;
             font-weight: 500;
         }
-        .hidden { display: none; }
-        .footer { text-align: center; font-size: 0.7rem; color: #666; margin-top: 20px; }
-        .hint {
-            font-size: 0.75rem;
-            color: #aa8888;
-            margin-top: -15px;
-            margin-bottom: 15px;
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
         }
-        
-        /* СПЕЦИАЛЬНЫЕ СТИЛИ ДЛЯ ПЕЧАТИ (ЗАПОЛНЕНИЕ ВСЕГО ЛИСТА А4) */
+        .button-group button {
+            flex: 1;
+            margin-top: 0;
+        }
+
+        /* ПЕЧАТЬ НА А4 — полный лист */
         @media print {
             body {
                 background: white;
                 padding: 0;
                 margin: 0;
             }
-            .container, .footer, .hidden, #errorDiv, button, .diploma > button, #downloadBtn, #printBtn {
+            .container, .footer, .hidden, #errorDiv, button, .button-group, .diploma > .button-group {
                 display: none !important;
             }
             .diploma {
@@ -179,27 +194,26 @@
                 width: 100%;
                 height: 100%;
                 margin: 0;
-                padding: 0;
+                padding: 20px;
                 border-radius: 0;
-                border: 2px solid #cc0000;
+                border: 2px solid #cc3333;
                 page-break-after: avoid;
                 page-break-inside: avoid;
-                box-sizing: border-box;
             }
             .diploma-content {
                 width: 100%;
                 height: 100%;
-                min-height: 297mm;
+                min-height: 277mm;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                background: rgba(0, 0, 0, 0.4);
-                padding: 20px;
+                background: rgba(0, 0, 0, 0.3);
+                padding: 30px;
             }
             .names-list span {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
             }
-            body * {
+            * {
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
@@ -208,15 +222,15 @@
 </head>
 <body>
     <div class="container" id="app">
-        <h1>🏆 СОЗДАТЬ ГРАМОТУ</h1>
+        <h1>🏆 ROCK QUIZ · ГРАМОТА</h1>
         
         <div id="formDiv">
             <label>👥 ИМЕНА УЧАСТНИКОВ</label>
             <textarea id="participantNames" placeholder="Введите имена через запятую, например:&#10;Иван Гаврин, Арсений Тимофей, Милана Глушкова, Дарья Пушилина, Юлия Колган, Керло Язлюк"></textarea>
-            <div class="hint">💡 Каждое имя пишите через запятую. Тогда на грамоте они будут на отдельных строчках.</div>
+            <div class="hint">💡 Каждое имя пишите через запятую. На грамоте они будут на отдельных строчках!</div>
             
             <label>🏷️ НАЗВАНИЕ КОМАНДЫ (необязательно)</label>
-            <input type="text" id="teamName" placeholder="Например: Янчары · 🎵 1 место">
+            <input type="text" id="teamName" placeholder="Например: ЯНЬЧАРЫ">
             
             <label>🎸 НОМИНАЦИЯ / МЕСТО</label>
             <select id="nomination">
@@ -233,7 +247,7 @@
         
         <div id="diplomaDiv" class="hidden"></div>
         <div id="errorDiv" class="error hidden"></div>
-        <div class="footer">📸 Скачайте PNG или нажмите «Печать» — грамота заполнит весь лист А4</div>
+        <div class="footer">📸 Скачайте PNG или нажмите «Печать» — грамота заполнит лист А4</div>
     </div>
 
     <script>
@@ -253,6 +267,15 @@
             return [input.trim()];
         }
         
+        function escapeHtml(str) {
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+        
         function showDiploma(namesArray, teamName, nomination) {
             const diplomaDiv = document.getElementById('diplomaDiv');
             const displayTeam = teamName ? `${teamName} · ` : '';
@@ -266,23 +289,24 @@
                 <div class="diploma" id="diplomaToDownload">
                     <div class="diploma-content">
                         <div class="diploma-header">
-                            <img src="logo.jpg" alt="Логотип" class="logo" onerror="this.style.display='none'">
+                            <img src="logo.jpg" alt="ROCK QUIZ" class="logo" onerror="this.style.display='none'">
                             <h2>ROCK QUIZ</h2>
                             <p>Музыкальная битва</p>
                         </div>
-                        <div class="award-text">🏅 НАГРАЖДАЕТСЯ</div>
+                        <div class="award-text">НАГРАЖДАЕТСЯ</div>
                         <div class="names-list">${namesHtml}</div>
                         <div class="nomination">${displayTeam}${nomination}</div>
                         <div class="date">г. Липецк, 28 мая 2026 года | Рок-олимп гремит!</div>
                     </div>
                 </div>
-                <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+                <div class="button-group">
                     <button id="downloadBtn" style="background: #1a6e1a;">💾 СКАЧАТЬ PNG</button>
                     <button id="printBtn" style="background: #2a5f8a;">🖨️ ПЕЧАТЬ (А4)</button>
                 </div>
             `;
             diplomaDiv.classList.remove('hidden');
             
+            // Скачивание PNG
             document.getElementById('downloadBtn').addEventListener('click', async () => {
                 const element = document.getElementById('diplomaToDownload');
                 try {
@@ -307,6 +331,7 @@
                 }
             });
             
+            // Печать на А4
             document.getElementById('printBtn').addEventListener('click', () => {
                 const diplomaElement = document.getElementById('diplomaToDownload').cloneNode(true);
                 const printWindow = window.open('', '_blank');
@@ -331,34 +356,61 @@
                             }
                             .diploma {
                                 background: url('back.jpg') center/cover no-repeat;
+                                background-color: #8B0000;
                                 width: 100%;
                                 height: 100%;
                                 min-height: 297mm;
-                                border: 2px solid #cc0000;
+                                border: 2px solid #cc3333;
                                 display: flex;
                                 align-items: center;
                                 justify-content: center;
-                                padding: 15mm;
+                                padding: 20mm;
                             }
                             .diploma-content {
-                                background: rgba(0, 0, 0, 0.4);
+                                background: rgba(0, 0, 0, 0.25);
                                 width: 100%;
                                 height: 100%;
                                 display: flex;
                                 flex-direction: column;
                                 justify-content: center;
                                 text-align: center;
-                                padding: 20px;
-                                border-radius: 15px;
+                                padding: 30px;
+                                border-radius: 12px;
                             }
-                            .logo { width: 100px; margin: 0 auto 15px auto; }
-                            .diploma-header h2 { font-family: 'Russo One', sans-serif; color: #ff5555; font-size: 2.2rem; text-shadow: 2px 2px 0 #4a0000; }
-                            .diploma-header p { color: #f0e6c5; font-size: 1.1rem; margin-top: 8px; font-weight: 600; }
-                            .award-text { font-size: 1.3rem; color: #ffdd99; margin: 20px 0; font-weight: bold; }
-                            .names-list { font-family: 'Bebas Neue', cursive; font-size: 1.7rem; color: white; background: rgba(0,0,0,0.5); padding: 20px; border-radius: 15px; }
-                            .names-list span { display: block; margin: 6px 0; }
-                            .nomination { font-size: 1.3rem; color: #ffcc44; margin: 20px 0; font-weight: bold; }
-                            .date { color: #eee; margin-top: 20px; font-size: 0.9rem; }
+                            .logo { width: 90px; margin: 0 auto 15px auto; }
+                            .diploma-header h2 { 
+                                font-family: 'Russo One', sans-serif; 
+                                color: #ffffff; 
+                                font-size: 2.2rem; 
+                                text-shadow: 2px 2px 0 #8B0000;
+                            }
+                            .diploma-header p { 
+                                color: #f5e6d3; 
+                                font-size: 1rem; 
+                                margin-top: 5px;
+                            }
+                            .award-text { 
+                                font-size: 1.2rem; 
+                                color: #ffffff; 
+                                margin: 20px 0;
+                                font-weight: 600;
+                            }
+                            .names-list { 
+                                font-family: 'Bebas Neue', cursive; 
+                                font-size: 1.5rem; 
+                                color: white; 
+                                background: rgba(0,0,0,0.3); 
+                                padding: 18px; 
+                                border-radius: 15px; 
+                            }
+                            .names-list span { display: block; margin: 5px 0; }
+                            .nomination { 
+                                font-size: 1.15rem; 
+                                color: #ffffff; 
+                                margin: 20px 0;
+                                font-weight: 600;
+                            }
+                            .date { color: #f0e0d0; margin-top: 20px; font-size: 0.85rem; }
                             @media print {
                                 body {
                                     margin: 0;
@@ -399,15 +451,6 @@
             });
         }
         
-        function escapeHtml(str) {
-            return str.replace(/[&<>]/g, function(m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                return m;
-            });
-        }
-        
         document.getElementById('generateBtn').addEventListener('click', async () => {
             if (isProcessing) return;
             
@@ -438,8 +481,9 @@
             isProcessing = false;
         });
         
-        document.getElementById('participantNames').value = 'Иван Гаврин, Арсений Тимофей, Милана Глушкова, Дарья Пушилина, Юлия Колган, Керло Язлюк';
-        document.getElementById('teamName').value = 'Янчары';
+        // Предзаполнение как на картинках
+        document.getElementById('participantNames').value = 'Иван Керло, Арсений Гаврин, Тимофей Глушков, Милана Пушилина, Дарья Колган, Юлия Язлюк';
+        document.getElementById('teamName').value = 'ЯНЬЧАРЫ';
         document.getElementById('nomination').value = '🥇 1 место';
     </script>
 </body>
